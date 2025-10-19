@@ -65,7 +65,7 @@ const productos = [
     color: 'rosa',
     disponibilidad: '24-48h',
     descripcion: 'Suave, romántico y lleno de vida. Amor en cada tallo.',
-    img: './assets/products/Amora.jpeg',
+    img: './assets/products/Amora.jpeg', 
     img2: './assets/products/Amora2.jpeg',
     categoria: 'bouquets'
   },
