@@ -1,0 +1,1048 @@
+/* ========================= css/styles.css ========================= */
+/* Reset y bases accesibles */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:-apple-system,system-ui,"Inter","SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  line-height:1.6;
+  background:var(--bg);
+  color:var(--fg);
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+/* ===== Paleta Oasis actualizada ===== */
+:root{
+  --bg:#F8F8F6;          /* fondo claro */
+  --fg:#16302B;          /* azul verdoso profundo */
+  --muted:#4A5A60;       /* texto secundario */
+  --card:#FFFFFF;        /* tarjetas blancas */
+  --border:#DADDD9;      /* bordes grises claros */
+  --accent:#16302B;      /* color principal */
+  --radius:18px;
+  --shadow:0 10px 25px rgba(0,0,0,.1);
+}
+
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+.visually-hidden{position:absolute!important;clip:rect(1px,1px,1px,1px);padding:0;border:0;height:1px;width:1px;overflow:hidden}
+
+/* ========================= HEADER (Glass + Scroll) ========================= */
+.site-header{
+  position:fixed; top:0; left:0; width:100%; z-index:100;
+  background:rgba(255,255,255,0.75);
+  backdrop-filter:saturate(180%) blur(18px);
+  border-bottom:1px solid var(--border);
+  transition:background .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.logo img{height:64px; display:block}
+.menu a{margin-left:18px; opacity:.92}
+.menu a:hover{opacity:1; color:var(--accent); transition:.2s}
+.menu-toggle{display:none;background:none;border:1px solid var(--border);border-radius:10px;padding:8px}
+.menu-toggle__bar{display:block;width:22px;height:2px;background:var(--fg);margin:4px 0}
+.menu-movil{display:flex;flex-direction:column;padding:12px 20px;border-bottom:1px solid var(--border)}
+.menu-movil a{padding:10px 0}
+
+/* Estado con scroll */
+body.scrolled .site-header{
+  background:rgba(255,255,255,0.95);
+  box-shadow:0 6px 18px rgba(0,0,0,.1);
+  border-color:rgba(0,0,0,.05);
+}
+
+/* ========================= HERO (imagen + overlay opaco) ========================= */
+.hero{
+  padding:0; margin:0; position:relative;
+  min-height:72vh;
+  display:flex; align-items:center;
+  color:#fff;
+  background:#eef2f3;                    /* fallback claro */
+  background-image: var(--hero);          /* se define desde el HTML inline: --hero:url('...') */
+  background-size: cover; background-position: center;
+  border-bottom:1px solid var(--border);
+}
+/* overlay para mejorar lectura del título */
+.hero.has-overlay::before{
+  content:""; position:absolute; inset:0;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.25), rgba(0,0,0,.35)),
+    rgba(8,79,106,.35); /* tinte del acento */
+}
+/* zona segura bajo el header fijo */
+.hero::after{
+  content:""; position:absolute; top:0; left:0; right:0; height:88px;
+  background:transparent;
+}
+.hero__inner{position:relative; z-index:1; padding-top:140px; padding-bottom:60px}
+.hero h1,
+.hero__title{font-size:52px; line-height:1.1; margin:0 0 10px; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.35)}
+.subtitle{color:rgba(255,255,255,.9); font-size:20px; margin:0}
+
+/* ========================= BOTONES ========================= */
+.btn{
+  display:inline-block;
+  padding:12px 18px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  text-decoration:none;
+  box-shadow:var(--shadow);
+  transition:transform .2s ease, filter .3s ease, background .3s ease, color .3s ease;
+  background:#fff; color:var(--fg);      /* botones secundarios legibles sobre hero */
+}
+.btn--primary{
+  background: #012622;
+  color: #F8F8F6;
+  font-style: black;
+  font-weight: 500;
+  border:none;
+}
+.btn--primary:hover{ filter:brightness(0.85); }
+.btn:hover{ transform:translateY(-1px); filter:brightness(0.95); }
+
+/* ========================= SECCIONES ========================= */
+.section{padding:48px 0}
+.section--narrow .container{max-width:760px}
+.section__title{font-size:28px;margin:0 0 20px;font-weight:600;color:var(--fg)}
+.section__header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.lead{color:var(--muted)}
+
+/* ========================= GALERÍA FULL-BLEED ========================= */
+.section--gallery{padding-top:36px}
+.fullbleed{
+  margin:24px 0;
+  position:relative; left:50%; right:50%;
+  margin-left:-50vw; margin-right:-50vw;
+  width:100vw; background:#00000008;
+}
+.fullbleed img{
+  width:100%; height:auto; display:block;
+  object-fit:cover;
+  max-height:78vh; /* limita altura para elegancia */
+}
+
+/* ========================= GRID Y CARDS ========================= */
+.grid{display:grid;gap:18px}
+.grid--cards{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:14px;
+  box-shadow:var(--shadow);
+  transition:transform .2s ease, box-shadow .3s ease;
+}
+.card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(0,0,0,.15);
+}
+.card__img{width:100%;height:180px;object-fit:cover;border-radius:14px;margin-bottom:10px}
+.card__title{margin:8px 0 6px;font-size:18px;font-weight:600;color:var(--fg)}
+.card__meta{color:var(--muted);font-size:14px;display:flex;gap:10px}
+.card__cta{margin-top:10px}
+
+/* ========================= FILTROS ========================= */
+.filters{display:flex;gap:10px;align-items:center}
+.filters input[type=search], .filters select{
+  background:#fff;
+  color:var(--fg);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 12px;
+}
+
+/* ========================= FOOTER ========================= */
+.site-footer{
+  margin-top:64px;
+  padding:24px 0;
+  text-align:center;
+  border-top:1px solid var(--border);
+  background:#fff;
+  color:var(--muted);
+}
+
+/* ========================= MODAL ========================= */
+.modal{border:none;border-radius:20px;padding:0;background:transparent}
+.modal::backdrop{background:rgba(0,0,0,.5)}
+.modal__content{
+  background:#fff; color:var(--fg);
+  border:1px solid var(--border);
+  border-radius:20px;
+  max-width:720px; width:92vw; margin:auto; padding:16px; position:relative;
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+.modal__content img{width:100%;border-radius:16px;margin:6px 0 10px}
+.modal__meta{display:flex;gap:12px;color:var(--muted);margin:8px 0 14px}
+.modal__close{position:absolute;right:18px;top:8px;background:none;border:none;color:var(--fg);font-size:28px;cursor:pointer}
+
+/* ========================= RESPONSIVO ========================= */
+@media (max-width:860px){
+  .menu{display:none}
+  .menu-toggle{display:block}
+  .hero__title{font-size:40px}
+  .hero__inner{padding-top:120px}
+}
+
+/* ========================= ACCESIBILIDAD ========================= */
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ===== Nav bubble indicator ===== */
+.menu {
+  position: relative;
+  display: flex;
+  gap: 18px;
+}
+.menu a {
+  position: relative;
+  padding: 8px 12px;
+  border-radius: 999px;
+  z-index: 1;
+}
+/* burbuja animada */
+.menu .nav-indicator {
+  position: absolute;
+  top: 50%;
+  transform: translate(var(--x, 0), -50%);
+  width: var(--w, 0);
+  height: 36px;
+  border-radius: 999px;
+  background: rgba(8, 79, 106, 0.12);
+  border: 1px solid rgba(8, 79, 106, 0.25);
+  box-shadow: 0 6px 16px rgba(0,0,0,.1) inset;
+  transition: transform .35s cubic-bezier(.22,1,.36,1), width .35s cubic-bezier(.22,1,.36,1), opacity .2s ease;
+  pointer-events: none;
+  opacity: 0;
+}
+.menu a[aria-current="page"] { color: var(--fg); opacity: 1; }
+
+/* Suavizado de scroll a secciones */
+html { scroll-behavior: smooth; }
+
+/* Header ligeramente más compacto cuando hay scroll */
+body.scrolled .nav { padding: 10px 0; }
+body.scrolled .logo img { height: 56px; transition: height .2s ease; }
+
+/* Ocultar burbuja en móvil */
+@media (max-width: 860px){
+  .menu .nav-indicator { display: none; }
+}
+
+/* --- Fix hero visible + centrado --- */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* centra horizontalmente el bloque interno */
+  text-align: center;      /* centra el texto */
+  background-image: var(--hero); /* asegura que tome la imagen del inline style */
+  background-size: cover;
+  background-position: center;
+}
+
+.hero__inner {
+  padding-top: 140px;   /* despeje del header fijo */
+  padding-bottom: 80px; /* respiración inferior */
+  max-width: 900px;
+}
+
+.hero__cta {
+  display: flex;
+  justify-content: center;  /* botón centrado */
+  gap: 12px;
+  margin-top: 18px;         /* espacio extra con el título */
+}
+/* ===== Atelier split (imagen izq, texto der) ===== */
+.section--split .container.atelier{
+  display:grid;
+  grid-template-columns: 1.1fr 1fr; /* imagen un poco más ancha */
+  gap: 28px;
+  align-items:center;
+}
+
+.atelier__media img{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:16px;
+  box-shadow: var(--shadow);
+  object-fit: cover;
+}
+
+.atelier__content .section__title{
+  margin-top:0;
+}
+
+.atelier__content .lead{
+  margin:10px 0 18px;
+  color: var(--muted);
+}
+
+.atelier__cta .btn{
+  /* pequeño ajuste por si quieres un solo botón */
+}
+
+/* Responsive: apila en pantallas pequeñas */
+@media (max-width: 860px){
+  .section--split .container.atelier{
+    grid-template-columns: 1fr;
+  }
+  .atelier__media{
+    order: -1;         /* imagen primero en móvil (puedes quitarlo) */
+  }
+}
+
+/* ===== Contacto estilo 2 columnas con fondo suave ===== */
+.section--contacto{
+  background: linear-gradient(180deg, rgba(8,79,106,0.05), rgba(8,79,106,0.04));
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding-top: 56px;
+  padding-bottom: 56px;
+}
+
+.contacto-grid{
+  display: grid;
+  grid-template-columns: 1fr 0.9fr; /* links | info */
+  gap: 32px;
+  align-items: start;
+}
+
+.contacto__links,
+.contacto__info{
+  text-align: center; /* como la referencia */
+}
+
+.contacto__list{
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px;
+  display: grid;
+  gap: 12px;
+}
+
+.contacto__list a{
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .2s ease, opacity .2s ease;
+}
+.contacto__list a:hover{
+  color: var(--fg);
+  opacity: .9;
+}
+
+.contacto__copy{
+  color: var(--muted);
+  display: block;
+  margin-top: 10px;
+}
+
+.contacto__info .section__title{
+  font-family: "Playfair Display", serif; /* elegante como tu header */
+  font-weight: 600;
+  font-size: 28px;
+}
+
+.contacto__line{
+  color: var(--muted);
+  font-size: 18px;
+  margin: 10px 0;
+}
+.contacto__line a{
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color .2s ease, color .2s ease;
+}
+.contacto__line a:hover{
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* Redes */
+.contacto__social{
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 12px;
+  
+}
+.social__btn{
+  width: 40px; height: 40px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--fg);
+  background: #fff;
+  box-shadow: var(--shadow);
+  transition: transform .2s ease, filter .2s ease, border-color .2s ease;
+}
+.social__btn:hover{
+  transform: translateY(-2px);
+  filter: brightness(.95);
+  border-color: rgba(8,79,106,.35);
+}
+
+/* Botón flotante WhatsApp (opcional) */
+.wa-float{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 56px; height: 56px;
+  display: grid; place-items: center;
+  background: #25D366;
+  border-radius: 999px;
+  box-shadow: 0 12px 30px rgba(37,211,102,.35);
+  z-index: 999;
+  transition: transform .15s ease, filter .15s ease;
+}
+.wa-float:hover{ transform: translateY(-2px); filter: brightness(.95); }
+
+/* Responsive */
+@media (max-width: 900px){
+  .contacto-grid{
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+/* ===== Títulos con Playfair Display ===== */
+.hero__title,
+.section__title,
+h1, h2, h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 600;           /* 500–700 según tu gusto */
+  letter-spacing: 0.2px;      /* sutil, elegante */
+}
+
+.hero__subtitle,
+.section__subtitle,
+h1, h2, h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;           /* 500–700 según tu gusto */
+  letter-spacing: 0.2px;      /* sutil, elegante */
+}
+
+/* Si quieres el logo tipográfico también con Playfair (opcional) */
+.logo-text {
+  font-family: "Playfair Display", serif;
+  font-weight: 600;
+}
+/* ===== Catálogo en contenedor azul por categorías ===== */
+.catalogo-box{
+  background: var(--accent);
+  color:#fff;
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+.catalogo-box .section__title,
+.text-on-dark{ color:#fff; }
+
+.catalogo__hint{ opacity:.9; margin:4px 0 16px; }
+
+.catalogo__cats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;
+}
+.catalogo__cats .cat{
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.22);
+  color:#fff;
+  border-radius:14px;
+  padding:14px 16px;
+  text-align:center;
+  cursor:pointer;
+  transition:transform .15s ease, background .2s ease, border-color .2s ease;
+}
+.catalogo__cats .cat:hover{
+  transform:translateY(-2px);
+  background:rgba(255,255,255,.16);
+  border-color:rgba(255,255,255,.3);
+}
+
+.catalogo__grid-wrap{ margin-top:18px; }
+.catalogo__toolbar{
+  display:flex; align-items:center; gap:12px; margin-bottom:12px; flex-wrap:wrap;
+}
+.catalogo__title{ margin:0; color:#fff; font-weight:600; }
+
+/* Botón claro para contraste sobre fondo azul */
+.btn--light{ background:#fff; color:var(--accent); border:none; }
+
+/* Asegura legibilidad de cards dentro del contenedor azul */
+.catalogo-box .card{
+  background:#fff;
+  color:var(--fg);
+  border:1px solid var(--border);
+}
+
+/* Responsive */
+@media (max-width:700px){
+  .catalogo__toolbar{ justify-content:space-between; }
+}
+
+/* ===== Categorías con imagen (tiles) ===== */
+.catalogo__catsimg{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+  margin-top:8px;
+}
+
+.cat-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:16px;
+  isolation:isolate;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(255,255,255,.22);
+  background:#fff;
+  transition:transform .2s ease, box-shadow .25s ease, border-color .2s ease;
+  outline:none;
+}
+.cat-card img{
+  width:100%; height:180px; object-fit:cover; display:block;
+  transform:scale(1.02);
+  transition:transform .45s ease;
+}
+.cat-card::after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.35));
+  mix-blend-mode:multiply; /* mejora contraste del título */
+}
+.cat-card__title{
+  position:absolute; left:12px; bottom:12px; right:12px;
+  margin:0; padding:8px 12px;
+  border-radius:12px;
+  color:#fff; font-weight:600;
+  background:rgba(8,79,106,.55);
+  backdrop-filter:saturate(150%) blur(2px);
+  text-shadow:0 1px 6px rgba(0,0,0,.35);
+}
+
+/* Hover/Focus */
+.cat-card:hover{ transform:translateY(-2px); box-shadow:0 12px 30px rgba(0,0,0,.16); border-color:rgba(255,255,255,.35); }
+.cat-card:hover img{ transform:scale(1.06); }
+.cat-card:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+
+/* --- 1) Rótulo de categoría sin “botón azul” --- */
+.cat-card__title{
+  background: rgba(255,255,255,.92);   /* pastilla clara */
+  color: var(--accent);                /* texto en #084F6A */
+  text-shadow: none;
+  border: 1px solid rgba(0,0,0,.06);
+}
+.cat-card:hover .cat-card__title{
+  background: rgba(255,255,255,.98);
+}
+
+/* --- 2) Botón de cada card de producto con estilo ghost (no azul sólido) --- */
+.catalogo-box .card .btn--primary{
+  background: #fff;                    /* sin bloque azul */
+  color: var(--accent);
+  border: 1px solid rgba(8,79,106,.35);
+}
+.catalogo-box .card .btn--primary:hover{
+  filter: none;
+  background: #f7f9fa;
+  border-color: rgba(8,79,106,.55);
+  transform: translateY(-1px);
+}
+
+/* Si quieres que el botón sea aún más discreto: */
+.catalogo-box .card .btn--primary {
+  box-shadow: none;                    /* quita sombra si prefieres */
+}
+
+/* ===== Categorías: cajita bajo la imagen que sube en hover ===== */
+.catalogo__catsimg{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+  margin-top:8px;
+}
+
+.cat-card{
+  cursor:pointer;
+  outline:none;
+}
+
+.cat-card__imgwrap{
+  position:relative;
+  overflow:hidden;
+  border-radius:16px;
+  box-shadow: var(--shadow);
+  border:1px solid rgba(255,255,255,.22);
+  background:#fff;
+  isolation:isolate;
+}
+.cat-card__imgwrap img{
+  width:100%; height:180px; object-fit:cover; display:block;
+  transform:scale(1.02);
+  transition:transform .45s ease, filter .35s ease;
+}
+.cat-card__imgwrap::after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.18));
+  opacity:.5; transition:opacity .3s ease;
+  pointer-events:none;
+}
+
+/* La cajita */
+.cat-card__box{
+  margin-top:10px;
+  background:#fff;
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:14px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
+  padding:12px 14px;
+  transform:translateY(0);
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.cat-card__title{
+  margin:0;
+  font-weight:600;
+  color:var(--accent);
+  text-align:center;
+}
+
+/* Hover/Focus: la imagen hace zoom suave y la cajita sube y se sobrepone */
+.cat-card:hover .cat-card__imgwrap img{ transform:scale(1.06); }
+.cat-card:hover .cat-card__imgwrap::after{ opacity:.65; }
+.cat-card:hover .cat-card__box{
+  transform:translateY(-12px);          /* sube */
+  box-shadow:0 12px 28px rgba(0,0,0,.16);
+  border-color:rgba(8,79,106,.25);
+}
+
+/* Accesibilidad keyboard */
+.cat-card:focus-visible .cat-card__box{
+  transform:translateY(-10px);
+  outline:2px solid var(--accent);
+  outline-offset:2px;                    /* si prefieres outline, quita border-color */
+}
+
+/* Ajustes en el contenedor azul */
+.catalogo-box .cat-card__box{ background:#fff; }
+
+/* ===== Cards de producto: imagen + cajita blanca superpuesta ===== */
+.product-card{
+  cursor:pointer;
+  outline:none;
+}
+
+.product-card__imgwrap{
+  position:relative;
+  overflow:hidden;
+  border-radius:16px;
+  box-shadow: var(--shadow);
+  border:1px solid var(--border);
+  background:#fff;
+}
+.product-card__imgwrap img{
+  width:100%; height:240px; object-fit:cover; display:block;
+  transform:scale(1.02);
+  transition:transform .45s ease, filter .35s ease;
+}
+.product-card__imgwrap::after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.03), rgba(0,0,0,.18));
+  opacity:.45; transition:opacity .3s ease;
+  pointer-events:none;
+}
+
+/* Cajita blanca que sube en hover */
+.product-card__box{
+  width:90%;
+  margin: -18px auto 0;                  /* la hace “subir” y montar un poco */
+  background:#fff;
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:14px;
+  box-shadow:0 8px 22px rgba(0,0,0,.10);
+  padding:14px 16px;
+  transform:translateY(0);
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.product-card__title{
+  margin:0 0 6px;
+  font-weight:600;
+  color:var(--fg);
+  font-family:"Playfair Display", serif;
+  font-size:18px;
+}
+.product-card__price{
+  margin:0;
+  color:#444;
+  font-size:16px;
+}
+
+/* Hover/Focus */
+.product-card:hover .product-card__imgwrap img{ transform:scale(1.06); }
+.product-card:hover .product-card__imgwrap::after{ opacity:.6; }
+.product-card:hover .product-card__box{
+  transform:translateY(-6px);
+  box-shadow:0 14px 30px rgba(0,0,0,.16);
+  border-color:rgba(8,79,106,.18);
+}
+.product-card:focus-visible .product-card__box{
+  transform:translateY(-4px);
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
+
+/* En el contenedor azul del catálogo, mantenemos contraste */
+.catalogo-box .product-card__box{ background:#fff; }
+
+/* Opcional: reduce altura en móviles para que se vea compacta */
+@media (max-width:700px){
+  .product-card__imgwrap img{ height:200px; }
+}
+
+/* ===== Botón blanco sobre la imagen del producto ===== */
+.card .card__imgwrap{
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.card .card__overlay{
+  position: absolute;
+  left: 0; right: 0; bottom: 12px;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;          /* deja pasar eventos salvo en el botón */
+}
+
+.card .btn--overlay{
+  pointer-events: auto;          /* el botón sí recibe el click */
+  background: #fff;              /* blanco sólido */
+  color: var(--fg);
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 999px;
+  padding: 10px 14px;
+  box-shadow: 0 10px 22px rgba(0,0,0,.15);
+  transition: transform .15s ease, filter .2s ease, box-shadow .2s ease;
+}
+.card .btn--overlay:hover{
+  transform: translateY(-1px);
+  filter: brightness(.96);
+  box-shadow: 0 14px 28px rgba(0,0,0,.18);
+}
+
+/* Opcional: leve zoom de imagen al hover de la card */
+.card:hover .card__img{ transform: scale(1.02); }
+.card .card__img{ transition: transform .35s ease; }
+
+/* ===== Botón blanco solo en DESTACADOS ===== */
+#destacados .card .card__imgwrap{
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+#destacados .card .card__overlay{
+  position: absolute;
+  left: 0; right: 0; bottom: 12px;
+  display: flex;
+  justify-content: center;
+  pointer-events: none; /* deja pasar eventos salvo en el botón */
+}
+
+#destacados .card .btn--overlay{
+  pointer-events: auto;         /* el botón sí recibe el click */
+  background: #fff;             /* blanco sólido */
+  color: var(--fg);
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 999px;
+  padding: 10px 14px;
+  box-shadow: 0 10px 22px rgba(0,0,0,.15);
+  transition: transform .15s ease, filter .2s ease, box-shadow .2s ease;
+}
+#destacados .card .btn--overlay:hover{
+  transform: translateY(-1px);
+  filter: brightness(.96);
+  box-shadow: 0 14px 28px rgba(0,0,0,.18);
+}
+
+/* zoom suave SOLO en destacados */
+#destacados .card:hover .card__img{ transform: scale(1.02); }
+#destacados .card .card__img{ transition: transform .35s ease; }
+
+/* ===== Categorías con botón blanco redondo sobre la imagen ===== */
+.catalogo__catsimg{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+  margin-top:8px;
+}
+
+.cat-card{ isolation:isolate; }
+.cat-card__imgwrap{
+  position:relative;
+  overflow:hidden;
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(255,255,255,.22);
+  background:#fff;
+}
+.cat-card__imgwrap img{
+  width:100%; height:200px; object-fit:cover; display:block;
+  transform:scale(1.02);
+  transition:transform .45s ease, filter .35s ease;
+}
+
+/* Overlay que contiene el botón */
+.cat-card__overlay{
+  position:absolute; left:0; right:0; bottom:12px;
+  display:flex; justify-content:center;
+  pointer-events:none;     /* deja pasar eventos excepto el botón */
+}
+
+/* Botón blanco sólido, redondo */
+.cat-pill{
+  pointer-events:auto;
+  background:#fff;
+  color:var(--accent);
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:999px;
+  padding:10px 16px;
+  font-weight:600;
+  box-shadow:0 10px 22px rgba(0,0,0,.15);
+  transition:transform .15s ease, filter .2s ease, box-shadow .2s ease;
+}
+.cat-pill:hover{
+  transform:translateY(-1px);
+  filter:brightness(.96);
+  box-shadow:0 14px 28px rgba(0,0,0,.18);
+}
+
+/* efecto zoom suave al hover de la tarjeta */
+.cat-card:hover .cat-card__imgwrap img{ transform:scale(1.06); }
+
+/* Mejor toque en móvil */
+@media (max-width:700px){
+  .cat-card__imgwrap img{ height:180px; }
+  .cat-pill{ padding:12px 18px; }
+}
+
+/* Botones de categorías con la misma fuente del título */
+.cat-pill{
+  font-family: "Playfair Display", serif;
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: clamp(16px, 1.1vw + 12px, 20px); /* se adapta bien en móvil/escritorio */
+  line-height: 1.1;
+}
+
+/* Hero con <img> de fondo */
+.hero{
+  position: relative;
+  min-height: 78vh;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;                 /* recorta la imagen al borde */
+}
+
+/* La imagen de fondo ocupa todo y cubre */
+.hero__bg{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Overlay opaco para legibilidad */
+.hero.has-overlay::before{
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.25), rgba(0,0,0,.35)),
+    rgba(8,79,106,.30);
+  z-index: 1;
+}
+
+/* Contenido por encima del overlay */
+.hero__inner{
+  position: relative;
+  z-index: 2;
+  padding: 140px 20px 90px;
+  max-width: 960px;
+  width: 100%;
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+}
+
+.hero__logo{
+  max-width: 680px;
+  width: min(80vw, 680px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 8px 26px rgba(0,0,0,.35));
+}
+
+.hero__cta{
+  margin-top: 10px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+@media (max-width: 860px){
+  .hero{ min-height: 70vh; }
+  .hero__inner{ padding: 120px 16px 72px; }
+  .hero__logo{ width: min(84vw, 560px); }
+}
+@media (max-width: 520px){
+  .hero__inner{ padding: 110px 14px 64px; }
+  .hero__logo{ width: min(88vw, 420px); }
+}
+/* Burbuja: pistas al navegador para animar sin “lag” */
+.menu .nav-indicator{
+  will-change: transform, width;
+  transition:
+    transform .22s cubic-bezier(.22,1,.36,1),
+    width .22s cubic-bezier(.22,1,.36,1),
+    opacity .15s ease;
+}
+/* Nav: resalta la sección seleccionada */
+.menu a[aria-current="page"]{
+  font-weight: 700;           /* negrilla */
+  opacity: 1;                 /* asegura contraste */
+}
+
+/* Opcional: mismo estilo en el menú móvil */
+#menu-movil a[aria-current="page"]{
+  font-weight: 700;
+}
+/* Altura de la barra fija (se actualiza vía JS) */
+:root{ --header-h: 88px; }
+
+/* Aplica offset al hacer scroll a cualquier sección con id/heading */
+[id].section,
+section[id],
+h1[id], h2[id], h3[id]{
+  scroll-margin-top: calc(var(--header-h) + 12px);
+}
+
+/* Pequeño ajuste en móvil (header suele ser un poco más alto) */
+@media (max-width: 860px){
+  :root{ --header-h: 96px; }
+}
+
+/* Botón "Ver" para las cards del CATÁLOGO (debajo de la info) */
+.catalogo-box .card__cta{
+  margin-top: 10px;
+}
+
+.btn--catalog{
+  background: #012622;       /* verde de marca */
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  box-shadow: 0 10px 22px rgba(0,0,0,.12);
+  transition: transform .15s ease, filter .2s ease, box-shadow .2s ease;
+}
+
+.btn--catalog:hover{
+  filter: brightness(.92);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(0,0,0,.16);
+}
+
+
+/* Si tenías un overlay en catálogo por CSS, desactívalo aquí */
+.catalogo-box .card .card__overlay{ display:none !important; }
+
+/* Colecciones: reutiliza grid de categorías */
+#colecciones .catalogo__catsimg{
+  margin-top: 10px;
+}
+
+/* En Colecciones el caption va en color de texto, no blanco */
+#colecciones .cat-caption{
+  color: var(--fg);
+  text-shadow: none;
+}
+
+/* ===== Catálogo: carrusel horizontal (muestra 4, scroll para ver más) ===== */
+.catalogo-box--green #catalogoGrid{
+  display: flex;                 /* fila */
+  gap: 16px;
+  overflow-x: auto;              /* scroll horizontal */
+  overflow-y: hidden;
+  padding-bottom: 8px;           /* aire para la sombra de las cards */
+  scroll-snap-type: x mandatory; /* snap agradable */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Cada card ocupa ~1/4 del ancho (4 visibles en desktop) */
+.catalogo-box--green #catalogoGrid .card{
+  flex: 0 0 clamp(240px, 24%, 280px); /* base fija por card */
+  scroll-snap-align: start;
+}
+
+/* Afinar imágenes dentro del carrusel */
+.catalogo-box--green #catalogoGrid .card__img{
+  height: 180px;
+}
+
+/* Scrollbar sutil (opcional) */
+.catalogo-box--green #catalogoGrid::-webkit-scrollbar{ height: 10px; }
+.catalogo-box--green #catalogoGrid::-webkit-scrollbar-track{ background: rgba(255,255,255,.15); border-radius: 999px; }
+.catalogo-box--green #catalogoGrid::-webkit-scrollbar-thumb{ background: rgba(255,255,255,.45); border-radius: 999px; }
+.catalogo-box--green #catalogoGrid::-webkit-scrollbar-thumb:hover{ background: rgba(255,255,255,.6); }
+
+/* En pantallas pequeñas, que quepan 2–3 por vista */
+@media (max-width: 980px){
+  .catalogo-box--green #catalogoGrid .card{ flex-basis: clamp(240px, 32%, 320px); }
+}
+@media (max-width: 680px){
+  .catalogo-box--green #catalogoGrid .card{ flex-basis: 82vw; } /* 1 por vista en móvil */
+}
+
+/* --- Swap de imagen en cards del CATÁLOGO --- */
+.catalogo-box .card__imgwrap{
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #f5f5f5;
+}
+
+/* Ambas imágenes apiladas */
+.catalogo-box .card__img{
+  width: 100%;
+  height: 180px;                /* ajusta si lo deseas */
+  object-fit: cover;
+  display: block;
+  transition: opacity .35s ease, transform .45s ease;
+}
+.catalogo-box .card__img--secondary{
+  position: absolute;
+  inset: 0;
+  opacity: 0;                   /* oculta la 2ª por defecto */
+}
+
+/* Hover/Focus: mostrar la 2ª imagen */
+.catalogo-box .card:hover .card__img--secondary,
+.catalogo-box .card:focus-within .card__img--secondary,
+.catalogo-box .card.show-alt .card__img--secondary{   /* móvil */
+  opacity: 1;
+}
+.catalogo-box .card:hover .card__img--primary,
+.catalogo-box .card:focus-within .card__img--primary,
+.catalogo-box .card.show-alt .card__img--primary{
+  opacity: 0;
+}
+
+/* (Opcional) un zoom sutil en hover */
+.catalogo-box .card:hover .card__img--secondary{ transform: scale(1.02); }
+
+.contacto__social svg { pointer-events: none; }

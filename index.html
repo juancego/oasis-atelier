@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="es">
+    <head>
+      <!-- Favicon básico -->
+<link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16x16.png">
+
+<!-- Apple Touch (iOS “Añadir a pantalla de inicio”) -->
+<link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+
+<!-- PWA / Android (opcional, si usas manifest luego) -->
+<link rel="icon" type="image/png" sizes="192x192" href="./assets/icons/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./assets/icons/android-chrome-512x512.png">
+
+<!-- Color de la UI del navegador (Android/Windows) -->
+<meta name="theme-color" content="#084F6A">
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Oasis – Atelier Floral</title>
+    <meta name="description" content="Flores de alta gama con estética minimalista y experiencias a la medida." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Tipografías: Inter para texto, Playfair para títulos -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    </head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="nav container">
+      <a href="#home" class="logo" aria-label="Oasis – Inicio">
+        <img src="./assets/logo.png" alt="Oasis – Atelier floral" />
+      </a>
+      <nav class="menu" aria-label="Principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#colecciones">Colecciones</a>
+        <a href="#catalogo">Catálogo</a>
+        <a href="#atelier">Atelier</a>
+      </nav>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">
+        <span class="menu-toggle__bar"></span>
+        <span class="menu-toggle__bar"></span>
+        <span class="menu-toggle__bar"></span>
+      </button>
+    </div>
+
+  </header>
+
+  <main id="home">
+
+
+<!-- HERO full-bleed con <img src> de fondo -->
+<section id="inicio" class="hero has-overlay" aria-labelledby="hero-title">
+  <!-- Imagen de fondo -->
+  <img class="hero__bg" src="./assets/hero.jpg" alt="Fondo floral Oasis" />
+
+  <!-- Contenido centrado -->
+  <div class="hero__inner">
+    <img class="hero__logo" src="./assets/letras_oasis.png" alt="Oasis – Atelier Floral" />
+    <h1 id="hero-title" class="visually-hidden">Oasis – Atelier Floral</h1>
+    <div class="hero__cta">
+      <a class="btn btn--primary" href="#catalogo">Ver catálogo</a>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<!-- Colecciones -->
+<section id="colecciones" class="section" aria-labelledby="colecciones-title">
+  <div class="container">
+    <h2 id="colecciones-title" class="section__title">Colecciones</h2>
+
+    <!-- Colecciones como imagen + título debajo -->
+    <div class="catalogo__catsimg" id="coleccionesGrid">
+      <article class="cat-card" data-cat="canastas" aria-label="Canastas florales" tabindex="0">
+        <div class="cat-card__imgwrap">
+          <img src="./assets/categorias/canastas.jpeg" alt="Canastas florales" loading="lazy">
+        </div>
+        <h3 class="cat-caption">Canastas florales</h3>
+      </article>
+
+      <article class="cat-card" data-cat="bouquets" aria-label="Bouquets" tabindex="0">
+        <div class="cat-card__imgwrap">
+          <img src="./assets/categorias/bouquets.jpeg" alt="Bouquets" loading="lazy">
+        </div>
+        <h3 class="cat-caption">Bouquets</h3>
+      </article>
+
+      <article class="cat-card" data-cat="jarron" aria-label="Arreglos en jarrón" tabindex="0">
+        <div class="cat-card__imgwrap">
+          <img src="./assets/categorias/jarron.jpg" alt="Arreglos en jarrón" loading="lazy">
+        </div>
+        <h3 class="cat-caption">Arreglos en jarrón</h3>
+      </article>
+
+      <article class="cat-card" data-cat="corporativos" aria-label="Arreglos corporativos" tabindex="0">
+        <div class="cat-card__imgwrap">
+          <img src="./assets/categorias/corporativos.jpg" alt="Arreglos corporativos" loading="lazy">
+        </div>
+        <h3 class="cat-caption">Arreglos corporativos</h3>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- Catálogo (contenedor verde con filtros + grid “clásico”) -->
+<section id="catalogo" class="section" aria-labelledby="catalogo-title">
+  <div class="container catalogo-box catalogo-box--green">
+    <div class="section__header catalogo__header">
+      <h2 id="catalogo-title" class="section__title text-on-dark">Catálogo</h2>
+      <div class="filters" role="region" aria-label="Filtros">
+        <label>
+          <span class="visually-hidden">Buscar</span>
+          <input id="buscador" type="search" placeholder="Buscar arreglos…" />
+        </label>
+        <select id="filtroColor" aria-label="Filtrar por color">
+          <option value="">Color: Todos</option>
+          <option value="blanco">Blanco</option>
+          <option value="amarillo">Amarillo</option>
+          <option value="rosa">Rosa</option>
+          <option value="mixto">Mixto</option>
+        </select>
+        <select id="filtroDisponibilidad" aria-label="Filtrar por disponibilidad">
+          <option value="">Disponibilidad: Todas</option>
+          <option value="24-48h">24–48h</option>
+          <option value="a-pedido">A pedido</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid grid--cards" id="catalogoGrid"></div>
+  </div>
+</section>
+
+
+
+
+<!-- Atelier -->
+<section id="atelier" class="section section--split" aria-labelledby="atelier-title">
+  <div class="container atelier">
+    <figure class="atelier__media">
+      <img
+        src="./assets/colecciones/atelier.jpg"
+        alt="Mesa de trabajo del atelier con flores y herramientas"
+        loading="lazy"
+      />
+    </figure>
+
+    <div class="atelier__content">
+      <h2 id="atelier-title" class="section__title">El Atelier</h2>
+      <p class="lead">
+        Creamos experiencias florales hechas a la medida, con materiales nobles
+        y composición equilibrada. Diseños minimalistas, acabados impecables y
+        entrega puntual.
+      </p>
+      <div class="atelier__cta">
+        <a class="btn btn--primary" href="#contacto">Solicitar diseño</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Contacto -->
+<section id="contacto" class="section section--contacto" aria-labelledby="contacto-title">
+  <!--<div class="container contacto-grid">-->
+    <!-- Columna izquierda: enlaces -->
+    <!--<div class="contacto__links">
+      <ul class="contacto__list">
+        <li><a href="#">Política de envíos</a></li>
+        <li><a href="#">Términos y condiciones</a></li>
+        <li><a href="#">Política de devoluciones</a></li>
+        <li><a href="#">Manejo de datos personales</a></li>
+        <li><a href="#">Medios de pago</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <li><a href="#">PQRs</a></li>
+      </ul>
+      <small class="contacto__copy">Copyright © Oasis - Atelier Floral<span id="anio"></span></small>
+    </div>-->
+
+    <!-- Columna derecha: info -->
+    <div class="contacto__info">
+      <h2 id="contacto-title" class="section__title">Contacto</h2>
+      <p class="contacto__line">
+        Whatsapp: <a href="https://wa.me/573177598416" target="_blank" rel="noopener">+57 317 759 8416</a>
+      </p>
+      <p class="contacto__line">
+        Correo: <a href="mailto:hola@oasisatelier.co">admin@oasisatelier.co</a>
+      </p>
+
+      <div class="contacto__social" aria-label="Redes sociales">
+        <a
+  class="social__btn"
+  aria-label="Instagram"
+  title="Instagram"
+  href="https://www.instagram.com/oasis.atelier.co?utm_source=ig_web_button_share_sheet&igsh=YWo5Ym85YTgwMzYx"
+  target="_blank"
+  rel="noopener"
+  data-external="true"
+>
+  <!-- SVG instagram -->
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6">
+    <rect x="3" y="3" width="18" height="18" rx="4"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <circle cx="17.5" cy="6.5" r="1.2"/>
+  </svg>
+</a>
+
+
+
+        <!-- Deja Facebook/TikTok con # o pon sus URLs reales 
+      
+        <a href="#" aria-label="TikTok" class="social__btn" title="TikTok">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M21 8.5a7 7 0 0 1-4-1.3v6.09a6.26 6.26 0 1 1-6.26-6.26c.28 0 .55.02.82.06v3.53a2.85 2.85 0 1 0 2.85 2.85V2h2.4a7.03 7.03 0 0 0 4.19 3.77z"/></svg>
+        </a>--> 
+      </div>
+
+<small class="contacto__copy">Copyright © Oasis - Atelier Floral <span id="anio"></span></small>
+
+
+  <!-- Botón flotante WhatsApp (opcional) -->
+  <a class="wa-float" href="https://wa.me/573177598416?text=Hola%20Oasis%2C%20quiero%20hacer%20un%20pedido" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg viewBox="0 0 32 32" width="24" height="24" fill="#fff"><path d="M19.11 17.46c-.27-.14-1.57-.77-1.81-.86-.24-.1-.41-.14-.58.14-.17.27-.67.86-.82 1.04-.15.17-.3.19-.57.07-.27-.14-1.15-.42-2.19-1.33-.81-.71-1.36-1.58-1.52-1.86-.16-.27-.02-.41.12-.54.12-.12.27-.3.4-.44.14-.15.19-.24.29-.41.1-.17.05-.3-.02-.44-.07-.14-.58-1.41-.8-1.94-.21-.5-.42-.43-.58-.44h-.5c-.17 0-.44.06-.67.3-.23.24-.88.86-.88 2.1s.9 2.43 1.02 2.6c.12.17 1.77 2.72 4.3 3.8.6.26 1.07.41 1.44.52.61.19 1.17.16 1.61.1.49-.07 1.57-.64 1.79-1.25.22-.61.22-1.13.15-1.25-.06-.12-.24-.19-.5-.32zM16 3C8.83 3 3 8.82 3 16c0 2.3.62 4.45 1.69 6.3L3 29l6.86-1.8A12.9 12.9 0 0 0 16 29c7.18 0 13-5.82 13-13S23.18 3 16 3z"/></svg>
+  </a>
+</section>
+
+
+  <!-- Modal de producto -->
+  <dialog id="productoModal" class="modal">
+    <article class="modal__content" role="document">
+      <button class="modal__close" aria-label="Cerrar">×</button>
+      <img id="modalImg" alt="" />
+      <h3 id="modalTitulo"></h3>
+      <p id="modalTexto" class="muted"></p>
+      <div class="modal__meta">
+        <span id="modalPrecio"></span>
+        <span id="modalColor"></span>
+        <span id="modalDisp"></span>
+      </div>
+      <a id="modalCTA" class="btn btn--primary" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+    </article>
+  </dialog>
+
+  <script src="./js/app.js" defer></script>
+</body>
+</html>
