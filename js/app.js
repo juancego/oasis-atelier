@@ -198,28 +198,46 @@ function abrirModal(p){
 
 function cerrarModal(){ $$('#productoModal')?.close(); }
 
-// ===== Navegación móvil =====
 function setupMenuMovil(){
-  const btn = $$('.menu-toggle');
-  const menu = $$('#menu-movil');
+  const btn  = document.querySelector('.menu-toggle');
+  const menu = document.querySelector('#menu-movil');
+  const root = document.documentElement;
   if (!btn || !menu) return;
 
-  const toggle = () => {
-    const expanded = btn.getAttribute('aria-expanded') === 'true';
-    btn.setAttribute('aria-expanded', String(!expanded));
-    menu.hidden = expanded;
+  const open = () => {
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('body-lock');
+    root.classList.add('menu-open');
+    menu.hidden = false;
   };
+  const close = () => {
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('body-lock');
+    root.classList.remove('menu-open');
+    menu.hidden = true;
+  };
+  const toggle = () => (btn.getAttribute('aria-expanded') === 'true' ? close() : open());
 
   btn.addEventListener('click', toggle);
-  btn.addEventListener('keydown', (e)=>{
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
-  });
 
-  $$$('#menu-movil a').forEach(a => a.addEventListener('click', () => {
-    btn.setAttribute('aria-expanded','false');
-    menu.hidden = true;
-  }));
+  // Cerrar al tocar un link del menú
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+
+  // Cerrar al hacer scroll (por si navegas a una sección)
+  window.addEventListener('scroll', () => {
+    if (btn.getAttribute('aria-expanded') === 'true') close();
+  }, { passive: true });
+
+  // Asegura el offset del header para el drawer
+  const header = document.querySelector('.site-header');
+  const setH = () => {
+    const h = header?.offsetHeight || 88;
+    root.style.setProperty('--header-h', h + 'px');
+  };
+  setH();
+  window.addEventListener('resize', setH);
 }
+
 
 // ===== Delegación: abrir modal desde cualquier grid (sin romper links) =====
 function setupDelegation(){
