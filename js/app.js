@@ -65,7 +65,8 @@ const productos = [
     color: 'rosa',
     disponibilidad: '24-48h',
     descripcion: 'Suave, romántico y lleno de vida. Amor en cada tallo.',
-    img: './assets/products/amora.jpeg',
+    img: './assets/products/Amora1.jpeg',
+    img2: './assets/products/Amora2.jpeg',
     categoria: 'bouquets'
   },
   {
@@ -75,7 +76,8 @@ const productos = [
     color: 'amarillo',
     disponibilidad: '24-48h',
     descripcion: 'Reflejo de calma y luz. La elegancia de lo simple.',
-    img: './assets/products/aurea.jpeg',
+    img: './assets/products/Aurea1.jpeg',
+    img2: './assets/products/Aurea2.jpeg',
     categoria: 'bouquets'
   }
 ];
