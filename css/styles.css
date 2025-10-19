@@ -1181,3 +1181,25 @@ img, video{ max-width: 100%; height: auto; }
 .card:focus-within .card__img--primary,
 .card.show-alt .card__img--primary{ opacity:0; }
 
+/* ===== Header: forzar ocultar el menú en móvil ===== */
+@media (max-width: 860px){
+  /* limita al header para no afectar otros ".menu" que puedas tener */
+  .site-header .menu{
+    display: none !important;
+    visibility: hidden !important;
+  }
+  .site-header .menu a{ display: none !important; } /* por si algo lo fuerza inline */
+  .site-header .menu-toggle{
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+  }
+  /* oculta también la burbuja animada en móvil */
+  .site-header .menu .nav-indicator{ display: none !important; }
+}
+
+/* En desktop sí debe verse el menú y ocultarse el botón */
+@media (min-width: 861px){
+  .site-header .menu{ display: flex !important; }
+  .site-header .menu-toggle{ display: none !important; }
+}

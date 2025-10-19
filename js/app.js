@@ -212,45 +212,101 @@ function abrirModal(p){
 
 function cerrarModal(){ $$('#productoModal')?.close(); }
 
+// ===== Menú móvil (drawer bajo el header) =====
 function setupMenuMovil(){
-  const btn  = document.querySelector('.menu-toggle');
-  const menu = document.querySelector('#menu-movil');
-  const root = document.documentElement;
-  if (!btn || !menu) return;
+  const btn   = document.querySelector('.menu-toggle');
+  const menu  = document.querySelector('#menu-movil');
+  const hdr   = document.querySelector('.site-header');
+  const root  = document.documentElement;
+  if (!btn || !menu || !hdr) return;
 
-  const open = () => {
-    btn.setAttribute('aria-expanded', 'true');
-    document.body.classList.add('body-lock');
-    root.classList.add('menu-open');
-    menu.hidden = false;
-  };
-  const close = () => {
-    btn.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('body-lock');
-    root.classList.remove('menu-open');
-    menu.hidden = true;
-  };
-  const toggle = () => (btn.getAttribute('aria-expanded') === 'true' ? close() : open());
-
-  btn.addEventListener('click', toggle);
-
-  // Cerrar al tocar un link del menú
-  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
-
-  // Cerrar al hacer scroll (por si navegas a una sección)
-  window.addEventListener('scroll', () => {
-    if (btn.getAttribute('aria-expanded') === 'true') close();
-  }, { passive: true });
-
-  // Asegura el offset del header para el drawer
-  const header = document.querySelector('.site-header');
-  const setH = () => {
-    const h = header?.offsetHeight || 88;
+  // Actualiza la var --header-h para posicionar el drawer justo debajo
+  const setHeaderH = () => {
+    const h = hdr.offsetHeight || 88;
     root.style.setProperty('--header-h', h + 'px');
   };
-  setH();
-  window.addEventListener('resize', setH);
+  setHeaderH();
+  window.addEventListener('resize', setHeaderH);
+
+  const isOpen   = () => btn.getAttribute('aria-expanded') === 'true';
+  const lockBody = (lock) => document.body.classList.toggle('body-lock', !!lock);
+
+  // Focus trap mínimo
+  const focusablesSel = 'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
+  let lastFocused = null;
+
+  const open = () => {
+    lastFocused = document.activeElement;
+    btn.setAttribute('aria-expanded', 'true');
+    root.classList.add('menu-open');
+    lockBody(true);
+    menu.hidden = false;
+
+    // Enfoca el primer link del menú
+    const first = menu.querySelector(focusablesSel);
+    first && first.focus({ preventScroll: true });
+  };
+
+  const close = () => {
+    btn.setAttribute('aria-expanded', 'false');
+    root.classList.remove('menu-open');
+    lockBody(false);
+    menu.hidden = true;
+    // Devuelve foco al botón
+    btn.focus({ preventScroll: true });
+  };
+
+  const toggle = () => (isOpen() ? close() : open());
+
+  // Click en el botón
+  btn.addEventListener('click', toggle);
+
+  // Click en links del menú → cerrar
+  menu.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (a) close();
+  });
+
+  // Cerrar con Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen()) close();
+  });
+
+  // Cerrar si se hace scroll (navegación a secciones)
+  window.addEventListener('scroll', () => {
+    if (isOpen()) close();
+  }, { passive: true });
+
+  // Focus trap simple dentro del menú cuando está abierto
+  menu.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab' || !isOpen()) return;
+    const focusables = Array.from(menu.querySelectorAll(focusablesSel))
+      .filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
+    if (!focusables.length) return;
+
+    const first = focusables[0];
+    const last  = focusables[focusables.length - 1];
+
+    if (e.shiftKey && document.activeElement === first){
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last){
+      e.preventDefault(); first.focus();
+    }
+  });
+
+  // Estado inicial: cerrado en móvil
+  const ensureClosedOnMobile = () => {
+    const mobile = window.matchMedia('(max-width: 860px)').matches;
+    if (mobile) { close(); }
+    else { // en desktop asegúrate de que el body no quede bloqueado
+      lockBody(false);
+      menu.hidden = true;      // el menú móvil no se muestra en desktop
+    }
+  };
+  ensureClosedOnMobile();
+  window.addEventListener('resize', ensureClosedOnMobile);
 }
+
 
 
 // ===== Delegación: abrir modal desde cualquier grid (sin romper links) =====
@@ -425,12 +481,14 @@ function setupYear(){
 // ===== Init =====
 window.addEventListener('DOMContentLoaded', () => {
   setupYear();
+  setupMenuMovil();
 
   // Render inicial
   renderDestacados();
   renderCatalogo(productos);
   renderColecciones();
   setupLazyImages();   // << añade esta línea tras los renders
+
 
   // Filtros
   $$('#buscador')?.addEventListener('input', aplicarFiltros);
