@@ -1135,3 +1135,25 @@ img, video{ max-width: 100%; height: auto; }
   height: 100vh;
   overflow: hidden;
 }
+
+/* Centrar todos los títulos de secciones */
+.section__title{
+  text-align: center;
+}
+
+/* Si usas .section__header (título + filtros, etc.), centra su contenido */
+.section__header{
+  justify-content: center;
+  text-align: center;
+}
+
+/* El Atelier: centra solo su CTA sin afectar otros botones */
+#atelier .atelier__actions{
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+  gap: 12px; /* por si agregas más botones */
+}
+#atelier .btn-solicitar{
+  display: inline-block;
+}
