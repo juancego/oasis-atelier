@@ -312,6 +312,7 @@ function setupNavBubble(){
   const menu = document.querySelector('.menu');
   if (!menu) return;
 
+  // Crear/obtener la burbuja
   let indicator = menu.querySelector('.nav-indicator');
   if (!indicator) {
     indicator = document.createElement('span');
@@ -319,8 +320,10 @@ function setupNavBubble(){
     menu.appendChild(indicator);
   }
 
-  const links = Array.from(menu.querySelectorAll('a[href^="#"]'));
+  const links = Array.from(menu.querySelectorAll('a[href^="#"]')).filter(a => a.offsetParent !== null);
+  if (!links.length) return;
 
+  // Helpers
   const menuLeft = () => menu.getBoundingClientRect().left + window.scrollX;
 
   const moveTo = (el, instant = false) => {
@@ -333,12 +336,12 @@ function setupNavBubble(){
     const w = rect.width;
 
     if (instant) {
-      const t = indicator.style.transition;
+      const prev = indicator.style.transition;
       indicator.style.transition = 'none';
       indicator.style.setProperty('--x', x + 'px');
       indicator.style.setProperty('--w', w + 'px');
       indicator.style.opacity = '1';
-      requestAnimationFrame(() => { indicator.style.transition = t || ''; });
+      requestAnimationFrame(() => { indicator.style.transition = prev || ''; });
     } else {
       indicator.style.setProperty('--x', x + 'px');
       indicator.style.setProperty('--w', w + 'px');
@@ -346,55 +349,70 @@ function setupNavBubble(){
     }
   };
 
-  // Bloqueo mientras haces click con scroll suave (evita “pasar por todas”)
-  let locked = false, timer = null;
-  const lock = (ms=800)=>{ locked=true; clearTimeout(timer); timer=setTimeout(()=>locked=false, ms); };
+  // --- BLOQUEO del scrollspy mientras hacemos smooth scroll por click ---
+  let locked = false;
+  let lockTimer = null;
+  const lock = (ms = 700) => {
+    locked = true;
+    clearTimeout(lockTimer);
+    lockTimer = setTimeout(() => { locked = false; }, ms);
+  };
 
-  // Scrollspy suave con rAF
+  // rAF Scrollspy (ignora mientras locked = true)
   let ticking = false;
-  const sections = links.map(a => ({ link:a, target: document.querySelector(a.getAttribute('href')) })).filter(s => s.target);
+  const sections = links.map(a => {
+    const id = a.getAttribute('href');
+    return { id, link: a, el: document.querySelector(id) };
+  }).filter(s => s.el);
+
   const onScroll = () => {
     if (locked || ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
-      const y = window.scrollY + window.innerHeight * 0.33;
-      let best = sections[0], bestD = Infinity;
+      const vpCenter = window.scrollY + window.innerHeight * 0.33;
+      let best = null, bestDist = Infinity;
       for (const s of sections) {
-        const top = s.target.offsetTop;
-        const bottom = top + s.target.offsetHeight;
-        const c = (top + bottom) / 2;
-        const d = Math.abs(c - y);
-        if (d < bestD) { best = s; bestD = d; }
+        const top = s.el.getBoundingClientRect().top + window.scrollY;
+        const bottom = top + (s.el.offsetHeight || 0);
+        const center = (top + bottom) / 2;
+        const d = Math.abs(center - vpCenter);
+        if (d < bestDist) { best = s; bestDist = d; }
       }
-      moveTo(best?.link, false);
+      if (best) moveTo(best.link, false);
       ticking = false;
     });
   };
 
+  // Click/tecla → mover burbuja instantáneo y bloquear scrollspy
   links.forEach(a => {
-    a.addEventListener('click', () => { moveTo(a, true); lock(900); });
-    a.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); moveTo(a, true); lock(900); }});
+    const go = () => { moveTo(a, true); lock(800); };
+    a.addEventListener('click', go);
+    a.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+    });
   });
 
-  const reflow = () => {
+  // Desbloques adicionales cuando termina el desplazamiento
+  window.addEventListener('hashchange', () => lock(0));           // llegó al destino
+  // scrollend no está en todos los navegadores; si existe, úsalo
+  if ('onscrollend' in window) window.addEventListener('scrollend', () => lock(0));
+
+  // Recalcular en resize
+  window.addEventListener('resize', () => {
     const current = menu.querySelector('a[aria-current="page"]') || links[0];
-    // espera un frame por si cambió tipografía/anchos
-    requestAnimationFrame(() => moveTo(current, true));
-  };
+    moveTo(current, true);
+  });
 
-  window.addEventListener('resize', reflow);
-  window.addEventListener('hashchange', reflow);
-  window.addEventListener('scroll', onScroll, { passive:true });
-
-  // init
+  // Init
   window.addEventListener('load', () => {
-    const hash = location.hash || links[0]?.getAttribute('href');
+    const hash = window.location.hash || links[0]?.getAttribute('href');
     const target = links.find(a => a.getAttribute('href') === hash) || links[0];
     moveTo(target, true);
     onScroll();
   });
-}
 
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
 
 
 

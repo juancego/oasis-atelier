@@ -1181,15 +1181,3 @@ img, video{ max-width: 100%; height: auto; }
 .card:focus-within .card__img--primary,
 .card.show-alt .card__img--primary{ opacity:0; }
 
-.menu{ position:relative; display:flex; gap:18px; }
-.menu a{ position:relative; padding:8px 12px; border-radius:999px; z-index:1; }
-.menu .nav-indicator{
-  position:absolute; top:50%; transform:translate(var(--x,0), -50%);
-  width:var(--w,0); height:36px; border-radius:999px;
-  background: rgba(8,79,106,.12); border:1px solid rgba(8,79,106,.25);
-  box-shadow: 0 6px 16px rgba(0,0,0,.1) inset;
-  transition: transform .22s cubic-bezier(.22,1,.36,1), width .22s cubic-bezier(.22,1,.36,1), opacity .15s ease;
-  pointer-events:none; opacity:0;
-  will-change: transform, width;
-}
-.menu a[aria-current="page"]{ font-weight:700; }
