@@ -57,6 +57,26 @@ const productos = [
     img: './assets/products/Lumina1.jpeg',
     img2: './assets/products/Lumina2.jpeg',
     categoria: 'canastas'
+  },
+  {
+    id: 'amora',
+    titulo: 'Amora',
+    precio: 32000,
+    color: 'rosa',
+    disponibilidad: '24-48h',
+    descripcion: 'Suave, romántico y lleno de vida. Amor en cada tallo.',
+    img: './assets/products/amora.jpeg',
+    categoria: 'bouquets'
+  },
+  {
+    id: 'aurea',
+    titulo: 'Aurea',
+    precio: 35000,
+    color: 'amarillo',
+    disponibilidad: '24-48h',
+    descripcion: 'Reflejo de calma y luz. La elegancia de lo simple.',
+    img: './assets/products/aurea.jpeg',
+    categoria: 'bouquets'
   }
 ];
 
